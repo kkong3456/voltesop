@@ -69,12 +69,22 @@ class _RecognizePageState extends State<RecognizePage> {
       recognizedText = await textRecognizer.processImage(image);
       controller.text = recognizedText.text;
 
-      showToast('화면을 터치하면 메뉴얼 화면으로 이동합니다.');
+      log('controller.text is ${controller.text}');
+
+      if (controller.text.isEmpty) {
+        showToast('문자를 인식하지 못했습니다.');
+        Future.delayed(
+            Duration(seconds: 2), () => {Navigator.of(context).pop()});
+      } else {
+        showToast('화면을 터치하면 메뉴얼 화면으로 이동합니다.');
+      }
 
       // Future.delayed(
       //     Duration(seconds: 5), playVideo); //5초 recognizedText를 보여준다음 동영상으로 진행
       // playVideo();
-    } catch (err) {}
+    } catch (err) {
+      showToast('뒤로가기 버튼을 누르세요');
+    }
 
     log(image.filePath!);
 
@@ -85,12 +95,16 @@ class _RecognizePageState extends State<RecognizePage> {
   }
 
   Future<void> playVideo() async {
-    // bool keyWordisContained = await recognizedText.text.contains('CSCF');
-    bool keyWordisContained = true;
+    bool keyWordisContained =
+        await recognizedText.text.toUpperCase().contains('CSCF');
+    // bool keyWordisContained = true;
     log('keyWord... is ${keyWordisContained}');
 
     if (keyWordisContained) {
       Navigator.pushNamed(context, '/video_player');
+    } else {
+      showToast('문자열 인식은 하였으나 원하는 알람 코드가 없습니다.');
+      Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
     }
   }
 
