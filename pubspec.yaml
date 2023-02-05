@@ -37,6 +37,8 @@ dependencies:
   google_mlkit_text_recognition: ^0.4.0
   image_picker: ^0.8.5+3
   image_cropper: ^3.0.0
+  video_player: ^2.5.1
+  fluttertoast: ^8.1.2
 
 dev_dependencies:
   flutter_test:
