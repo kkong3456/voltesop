@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ocr/Screen/recognization_page.dart';
 import 'package:ocr/Screen/video_player_page.dart';
@@ -136,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           });
         },
-        tooltip: 'Increment',
-        label: const Text("Scan photo"),
+        tooltip: 'Text Scan',
+        label: const Text("여기여"),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

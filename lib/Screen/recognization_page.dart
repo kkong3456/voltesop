@@ -33,7 +33,9 @@ class _RecognizePageState extends State<RecognizePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("문자인식")),
+      appBar: AppBar(
+        title: _isBusy == true ? const Text("알람코드 인식중") : const Text("인식완료"),
+      ),
       body: _isBusy == true
           ? const Center(
               child: CircularProgressIndicator(),
@@ -46,7 +48,7 @@ class _RecognizePageState extends State<RecognizePage> {
                 maxLines: MediaQuery.of(context).size.height.toInt(),
                 controller: controller,
                 decoration: const InputDecoration(
-                    hintText: "글자를 인식하지 못했습니다. 다시 시도해 주세요"),
+                    hintText: "알람 코드를 인식하지 못했습니다. 다시 시도해 주세요"),
               ),
             ),
     );
@@ -72,11 +74,11 @@ class _RecognizePageState extends State<RecognizePage> {
       log('controller.text is ${controller.text}');
 
       if (controller.text.isEmpty) {
-        showToast('문자를 인식하지 못했습니다.');
+        showToast('알람코드를 인식하지 못했습니다.');
         Future.delayed(
             Duration(seconds: 2), () => {Navigator.of(context).pop()});
       } else {
-        showToast('화면을 터치하면 메뉴얼 화면으로 이동합니다.');
+        showToast('화면을 터치하면 SOP 메뉴얼 화면으로 이동합니다.');
       }
 
       // Future.delayed(
@@ -95,15 +97,16 @@ class _RecognizePageState extends State<RecognizePage> {
   }
 
   Future<void> playVideo() async {
-    bool keyWordisContained =
-        await recognizedText.text.toUpperCase().contains('CSCF');
-    // bool keyWordisContained = true;
+    // bool keyWordisContained =
+    //     await recognizedText.text.toUpperCase().contains('CSCF');
+    bool keyWordisContained = true;
     log('keyWord... is ${keyWordisContained}');
 
     if (keyWordisContained) {
       Navigator.pushNamed(context, '/video_player');
+      // ignore: dead_code
     } else {
-      showToast('문자열 인식은 하였으나 원하는 알람 코드가 없습니다.');
+      showToast('문자열 인식은 하였으나 해당하는 알람 코드가 없습니다.');
       Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pop());
     }
   }
@@ -112,8 +115,8 @@ class _RecognizePageState extends State<RecognizePage> {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 10,
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0);
